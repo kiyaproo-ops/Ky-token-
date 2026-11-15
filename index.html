@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#070b09">
+<title>KY TOKEN</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#070b09;--panel:#101713;--panel2:#151e18;--green:#39f36a;--lime:#b5ff31;--gold:#ffad20;--muted:#8d9b91;--line:#243329}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#17391f 0,#0a120d 35%,var(--bg) 72%);color:#f5fff6;font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button{font:inherit;color:inherit;border:0;cursor:pointer}.app{max-width:520px;margin:auto;min-height:100vh;padding:18px 16px 100px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 18px}.brand{display:flex;align-items:center;gap:10px}.brandmark{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#38f46a,#ffae20);display:grid;place-items:center;color:#071008;font-size:20px;font-weight:1000;box-shadow:0 0 24px #39f36a55}.brandname{font-size:17px;font-weight:900;letter-spacing:1px}.sub{font-size:10px;color:var(--muted);margin-top:4px}.pill{border:1px solid #36513b;background:#122016;padding:8px 11px;border-radius:30px;font-size:11px;color:#a8ffb8}
+.balance{text-align:center;padding:18px 12px 8px}.eyebrow{color:#a6b8aa;font-size:12px}.amount{font-size:39px;font-weight:900;letter-spacing:.5px;margin:8px 0 4px;background:linear-gradient(90deg,#b5ff31,#39f36a,#ffbd3e);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 25px #39f36a22}.ticker{font-size:12px;color:#9aab9e}
+.coin-wrap{height:260px;display:grid;place-items:center;position:relative;margin:4px 0 12px}.orbit{position:absolute;width:236px;height:236px;border:1px solid #55ff7540;border-radius:50%;box-shadow:0 0 55px #39f36a18,inset 0 0 45px #39f36a12}.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid #ffb52d55;border-radius:50%;inset:15px;transform:rotate(-25deg) scaleX(1.28)}.orbit:after{inset:31px;border-color:#42ff7655;transform:rotate(42deg) scaleX(1.3)}
+.coin{width:202px;height:202px;border-radius:50%;position:relative;z-index:2;background:radial-gradient(circle at 35% 28%,#254d2b 0,#0c1b10 48%,#030805 72%);border:8px solid transparent;background-clip:padding-box;box-shadow:0 0 0 3px #a5ff38,0 0 0 7px #d88c16,0 15px 40px #000,0 0 50px #3df16b66;display:flex;align-items:center;justify-content:center;flex-direction:column;user-select:none;transition:transform .08s;touch-action:manipulation}.coin:active{transform:scale(.94)}.coin:before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px solid #7aff8a77}.coin:after{content:"";position:absolute;inset:17px;border-radius:50%;border:1px dashed #ffb52d88}.ky{font-size:76px;font-weight:1000;letter-spacing:-12px;line-height:1;background:linear-gradient(130deg,#b9ff38 8%,#2ee95a 48%,#ffb327 78%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 5px #000)}.coinlabel{font-size:11px;letter-spacing:6px;color:#ffd15a;margin:8px 0 0 6px;font-weight:bold}.tap-hint{position:absolute;bottom:0;color:#8fa696;font-size:11px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 18px}.stat{background:linear-gradient(145deg,#142119,#0d1510);border:1px solid var(--line);border-radius:16px;padding:13px}.stat .label{font-size:10px;color:var(--muted)}.stat strong{display:block;font-size:16px;margin-top:7px}.stat .ico{float:left;font-size:17px}
+.progressbox{background:#111a14;border:1px solid var(--line);padding:14px;border-radius:16px;margin:12px 0}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.small{font-size:11px;color:var(--muted)}.bar{height:7px;background:#26352a;border-radius:20px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;width:42%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:20px}
+.section-title{font-size:16px;font-weight:900;margin:22px 2px 12px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.quick button,.action{background:linear-gradient(145deg,#19251c,#101811);border:1px solid #2a3b2d;border-radius:15px;padding:13px 8px;text-align:center}.quick .emoji{font-size:22px;display:block;margin-bottom:7px}.quick span:last-child{font-size:11px;color:#d6e5d8}
+.page{display:none}.page.active{display:block}.list-card{display:flex;align-items:center;gap:12px;background:#111a14;border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:10px}.list-icon{width:42px;height:42px;display:grid;place-items:center;background:#1b2b1e;border-radius:13px;font-size:21px}.list-info{flex:1}.list-info b{font-size:13px}.list-info small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.reward{color:#baff6b;font-size:11px;font-weight:bold}.claim{background:linear-gradient(90deg,#37e960,#b5f52c);color:#071008;font-weight:900;border-radius:10px;padding:9px 12px;font-size:11px}.claim:disabled{opacity:.4}
+.walletbox{background:linear-gradient(145deg,#17291c,#111713);border:1px solid #35543a;border-radius:18px;padding:18px;text-align:center;margin-top:14px}.wallet-icon{font-size:42px}.walletbox h3{margin:10px 0 6px}.walletbox p{font-size:11px;color:var(--muted);line-height:1.8}.primary{background:linear-gradient(90deg,#36ed65,#c0f52c);color:#071008;font-weight:900;padding:13px 18px;border-radius:13px;width:100%;margin-top:12px}
+.invite-code{direction:ltr;background:#080e0a;border:1px dashed #46694b;padding:13px;border-radius:12px;margin:14px 0;color:#c4ffc9;font-size:12px;word-break:break-all}
+.nav{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);background:#0b120dee;backdrop-filter:blur(16px);border-top:1px solid #26352a;padding:9px 8px calc(9px + env(safe-area-inset-bottom));z-index:10}.nav button{background:none;color:#829287;font-size:10px;padding:6px 2px}.nav button b{display:block;font-size:19px;margin-bottom:4px}.nav button.active{color:#9eff58}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:#d7ffb9;color:#0a160b;padding:11px 16px;border-radius:30px;font-size:12px;font-weight:bold;transition:.25s;z-index:30;white-space:nowrap}.toast.show{transform:translateX(-50%) translateY(0)}
+.footer{text-align:center;color:#58665c;font-size:9px;margin:24px 0 0}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="brandmark">KY</div><div><div class="brandname">KY TOKEN</div><div class="sub">TAP • EARN • BUILD</div></div></div>
+  <div class="pill">● SEASON 01</div>
+</header>
+
+<main id="home" class="page active">
+  <div class="balance"><div class="eyebrow">موجودی امتیازهای شما</div><div class="amount" id="balance">0</div><div class="ticker">KY POINTS</div></div>
+  <div class="coin-wrap"><div class="orbit"></div><button class="coin" id="tapCoin" aria-label="Tap KY coin"><div class="ky">KY</div><div class="coinlabel">TOKEN</div></button><div class="tap-hint">برای جمع‌آوری امتیاز، سکه را لمس کن</div></div>
+  <div class="stats">
+    <div class="stat"><span class="ico">⚡</span><div class="label">قدرت هر ضربه</div><strong id="tapPower">+1 KY</strong></div>
+    <div class="stat"><span class="ico">👥</span><div class="label">دوستان دعوت‌شده</div><strong id="refCount">0 نفر</strong></div>
+  </div>
+  <div class="progressbox"><div class="row"><b style="font-size:12px">⚡ انرژی</b><span class="small" id="energyText">500 / 500</span></div><div class="bar"><span id="energyBar" style="width:100%"></span></div></div>
+  <div class="section-title">دسترسی سریع</div>
+  <div class="quick">
+    <button onclick="showPage('tasks')"><span class="emoji">🎯</span><span>ماموریت‌ها</span></button>
+    <button onclick="showPage('boost')"><span class="emoji">🚀</span><span>ارتقاها</span></button>
+    <button onclick="showPage('friends')"><span class="emoji">👥</span><span>دعوت دوستان</span></button>
+  </div>
+</main>
+
+<section id="tasks" class="page">
+  <div class="section-title">🎯 ماموریت‌ها</div>
+  <p class="small">ماموریت انجام بده و امتیاز بیشتری جمع کن.</p>
+  <div class="list-card"><div class="list-icon">🎁</div><div class="list-info"><b>پاداش ورود روزانه</b><small>هر روز یک‌بار</small><div class="reward">+100 KY</div></div><button class="claim" id="dailyBtn" onclick="claimDaily()">دریافت</button></div>
+  <div class="list-card"><div class="list-icon">📣</div><div class="list-info"><b>عضویت در کانال KYnews</b><small>کانال رسمی اخبار پروژه</small><div class="reward">+250 KY</div></div><button class="claim" onclick="toast('اتصال بررسی عضویت در نسخه بعدی فعال می‌شود')">بررسی</button></div>
+  <div class="list-card"><div class="list-icon">🌍</div><div class="list-info"><b>اولین ورود به بازی</b><small>خوش آمدی به دنیای KY</small><div class="reward">+50 KY</div></div><button class="claim" disabled>انجام شد</button></div>
+  <div class="footer">امتیازهای این پیش‌نمایش هنوز توکن قابل معامله نیستند.</div>
+</section>
+
+<section id="boost" class="page">
+  <div class="section-title">🚀 ارتقاها</div>
+  <p class="small">با خرج کردن امتیازها، قدرت جمع‌آوری خودت را بیشتر کن.</p>
+  <div class="list-card"><div class="list-icon">👆</div><div class="list-info"><b>قدرت لمس</b><small>هر لمس امتیاز بیشتری می‌دهد</small><div class="reward">هزینه: 500 KY</div></div><button class="claim" onclick="buyUpgrade()">ارتقا</button></div>
+  <div class="list-card"><div class="list-icon">🔋</div><div class="list-info"><b>باتری انرژی</b><small>افزایش ظرفیت انرژی</small><div class="reward">به‌زودی</div></div><button class="claim" disabled>قفل</button></div>
+  <div class="progressbox"><div class="row"><b style="font-size:12px">سطح قدرت لمس</b><b id="level">1</b></div><div class="small" style="margin-top:7px">هر سطح قدرت ضربه را یک واحد افزایش می‌دهد.</div></div>
+</section>
+
+<section id="friends" class="page">
+  <div class="section-title">👥 دعوت دوستان</div>
+  <div class="walletbox"><div class="wallet-icon">🤝</div><h3>با دوستانت KY جمع کن</h3><p>دوستانت را دعوت کن. وقتی از لینک اختصاصی تو وارد شوند، پاداش دعوت به حسابت اضافه می‌شود.</p><div class="invite-code" id="inviteLink">لینک دعوت پس از اتصال به ربات ساخته می‌شود</div><button class="primary" onclick="shareInvite()">اشتراک‌گذاری لینک</button></div>
+  <div class="stats"><div class="stat"><div class="label">دعوت موفق</div><strong id="friendCount2">0 نفر</strong></div><div class="stat"><div class="label">پاداش هر دعوت</div><strong>500 KY</strong></div></div>
+</section>
+
+<section id="wallet" class="page">
+  <div class="section-title">💎 کیف پول</div>
+  <div class="walletbox"><div class="wallet-icon">🔐</div><h3>اتصال کیف پول Ethereum</h3><p>در نسخه نهایی، کیف پول سازگار با Ethereum متصل می‌شود تا آدرس دریافت ایردراپ ثبت شود.<br>این دکمه در پیش‌نمایش فعلی تراکنش یا اتصال واقعی انجام نمی‌دهد.</p><button class="primary" onclick="toast('اتصال کیف پول در نسخه بلاکچینی بعدی پیاده‌سازی می‌شود')">اتصال کیف پول — به‌زودی</button></div>
+  <div class="progressbox" style="margin-top:14px"><div class="row"><span class="small">شبکه هدف</span><b>Ethereum</b></div><div class="row" style="margin-top:12px"><span class="small">استاندارد توکن</span><b>ERC-20</b></div><div class="row" style="margin-top:12px"><span class="small">وضعیت توکن</span><b style="color:#ffc15a">در حال توسعه</b></div></div>
+</section>
+</div>
+
+<nav class="nav">
+ <button class="active" data-page="home" onclick="showPage('home')"><b>⌂</b>خانه</button>
+ <button data-page="tasks" onclick="showPage('tasks')"><b>▣</b>ماموریت</button>
+ <button data-page="friends" onclick="showPage('friends')"><b>♧</b>دوستان</button>
+ <button data-page="wallet" onclick="showPage('wallet')"><b>◇</b>کیف پول</button>
+</nav>
+<script>
+const tg = window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();try{tg.setHeaderColor('#070b09');tg.setBackgroundColor('#070b09')}catch(e){}}
+const demoKey='ky_mini_demo_v1';
+let state={points:0,energy:500,power:1,level:1,referrals:0,lastDaily:'',userId:null};
+try{const saved=JSON.parse(localStorage.getItem(demoKey)||'null');if(saved)state={...state,...saved}}catch(e){}
+if(tg?.initDataUnsafe?.user?.id)state.userId=tg.initDataUnsafe.user.id;
+function save(){localStorage.setItem(demoKey,JSON.stringify(state));render()}
+function render(){
+ document.getElementById('balance').textContent=state.points.toLocaleString('en-US');
+ document.getElementById('tapPower').textContent='+'+state.power+' KY';
+ document.getElementById('refCount').textContent=state.referrals+' نفر';
+ document.getElementById('friendCount2').textContent=state.referrals+' نفر';
+ document.getElementById('energyText').textContent=state.energy+' / 500';
+ document.getElementById('energyBar').style.width=(state.energy/500*100)+'%';
+ document.getElementById('level').textContent=state.level;
+ const done=state.lastDaily===new Date().toISOString().slice(0,10);
+ const btn=document.getElementById('dailyBtn');btn.disabled=done;btn.textContent=done?'دریافت شد':'دریافت';
+ const bot=tg?.initDataUnsafe?.user;
+ const uname=window.KY_BOT_USERNAME||'YOUR_BOT_USERNAME';
+ document.getElementById('inviteLink').textContent=state.userId?'https://t.me/'+uname+'?start='+state.userId:'برای ساخت لینک، بازی را از ربات باز کن';
+}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200)}
+function tap(){if(state.energy<=0){toast('انرژی تمام شد؛ کمی بعد دوباره تلاش کن');return}state.points+=state.power;state.energy--;save();if(tg?.HapticFeedback)tg.HapticFeedback.impactOccurred('light')}
+document.getElementById('tapCoin').addEventListener('click',tap);
+function claimDaily(){const today=new Date().toISOString().slice(0,10);if(state.lastDaily===today){toast('پاداش امروز را گرفته‌ای');return}state.points+=100;state.lastDaily=today;save();toast('۱۰۰ امتیاز دریافت کردی!')}
+function buyUpgrade(){if(state.points<500){toast('برای ارتقا حداقل ۵۰۰ امتیاز لازم داری');return}state.points-=500;state.power++;state.level++;save();toast('قدرت لمس ارتقا پیدا کرد!')}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged()}
+function shareInvite(){const link=document.getElementById('inviteLink').textContent;if(!link.startsWith('https://')){toast('اول ربات تلگرام را راه‌اندازی کن');return}if(tg?.openTelegramLink)tg.openTelegramLink('https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent('بیا KY TOKEN رو امتحان کن!'));else if(navigator.share)navigator.share({url:link,text:'بیا KY TOKEN رو امتحان کن!'});else{navigator.clipboard?.writeText(link);toast('لینک دعوت کپی شد')}}
+render();
+</script>
+</body></html>
